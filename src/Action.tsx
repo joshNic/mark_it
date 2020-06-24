@@ -1,0 +1,35 @@
+import { IEpisode, IAction, IState } from "./interfaces";
+
+export const fetchDataAction = async (dispatch: any) => {
+  const URL =
+    "https://api.tvmaze.com/singlesearch/shows?q=rick-&-morty&embed=episodes";
+  const data = await fetch(URL);
+  const dataJSON = await data.json();
+  return dispatch({
+    type: "FETCH_DATA",
+    payload: dataJSON._embedded.episodes,
+  });
+};
+
+export const toggleFavAction = (
+  state: IState,
+  dispatch: any,
+  episode: IEpisode | any
+): IAction => {
+  const episodeinFav = state.favourites.includes(episode);
+  let dispatchObject = {
+    type: "ADD_FAV",
+    payload: episode,
+  };
+  if (episodeinFav) {
+    const favWithoutEpisode = state.favourites.filter(
+      (fav: IEpisode) => fav.id !== episode.id
+    );
+    dispatchObject = {
+      type: "REMOVE_FAV",
+      payload: favWithoutEpisode,
+    };
+  }
+
+  return dispatch(dispatchObject);
+};
