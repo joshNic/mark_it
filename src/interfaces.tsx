@@ -27,7 +27,7 @@ export interface IEpisodeProps {
 
 export interface IState {
   episodes: Array<IEpisode>;
-  favourites: Array<IEpisode>;
+  favourites: Array<IEpisode> | any;
 }
 
 export interface IAction {
